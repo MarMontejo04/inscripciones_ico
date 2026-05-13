@@ -13,7 +13,7 @@ CREATE TABLE area (
 
 CREATE TABLE alumno(
     id_alumno INT NOT NULL AUTO_INCREMENT,
-    num_cuenta VARCHAR(9) NOT NULL,
+    num_cuenta INT(9) NOT NULL,
     ap_paterno VARCHAR(100) NOT NULL,
     ap_materno VARCHAR(100) NOT NULL,
     nombre VARCHAR(100) NOT NULL,

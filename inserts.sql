@@ -1,3 +1,5 @@
+USE inscripciones_ico;
+
 INSERT INTO area VALUES
 (1, 'Matemáticas'),
 (2, 'Programación e Ingeniería de Software'),
