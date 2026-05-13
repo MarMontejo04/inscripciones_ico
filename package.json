@@ -1,0 +1,19 @@
+{
+  "name": "inscripciones_ico",
+  "version": "1.0.0",
+  "description": "Proyecto Inscripciones ICO  para Bases de Datos 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.37.8"
+  }
+}
