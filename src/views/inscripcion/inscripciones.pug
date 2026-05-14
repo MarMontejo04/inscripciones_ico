@@ -177,10 +177,6 @@ html(lang="es")
                     h3.text-primary.fw-bold 
                       | #{semestre}° Semestre
 
-                //- ====================================
-                //- TABLA
-                //- ====================================
-
                 .table-responsive
 
                   table.table.table-hover.table-bordered.align-middle
@@ -203,7 +199,6 @@ html(lang="es")
 
                         tr
 
-                          //- RADIO
                           td.text-center
                             input(
                               type="radio"
@@ -212,11 +207,9 @@ html(lang="es")
                               required
                             )
 
-                          //- MATERIA
                           td.fw-semibold
                             = clase.asignatura.nombre_asignatura
 
-                          //- TIPO
                           td.text-center
 
                             if (clase.asignatura.optativa)
@@ -229,30 +222,24 @@ html(lang="es")
                               span.badge-obligatoria
                                 | Obligatoria
 
-                          //- PROFESOR
                           td
                             | #{clase.profesor.nombre}
                             |  #{clase.profesor.ap_paterno}
 
-                          //- GRUPO
                           td.text-center
                             = clase.grupoClase.num_grupo
 
-                          //- CREDITOS
                           td.text-center
                             = clase.asignatura.creditos
 
-                          //- DIA
                           td
                             = clase.dia_semana
 
-                          //- HORARIO
                           td
                             | #{clase.hora_inicio}
                             |  -
                             |  #{clase.hora_final}
 
-                          //- SALON
                           td.text-center
                             = clase.salon
 

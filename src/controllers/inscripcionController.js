@@ -47,7 +47,6 @@ export const inscribir = async (req, res) => {
       });
     }
 
-    // Verificar si ya está inscrito en esa clase
     const yaInscrito = await Inscripcion.findOne({
       where: { id_alumno: alumno.id_alumno, id_clase },
     });
@@ -67,7 +66,7 @@ export const inscribir = async (req, res) => {
       });
     }
 
-    // Crear inscripción
+    // Crear nscripción
     await Inscripcion.create({
       id_alumno: alumno.id_alumno,
       id_clase,

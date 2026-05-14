@@ -20,7 +20,6 @@ const iniciarSesion = async (req, res) => {
       }
     });
 
-    // No existe
     if (!alumno) {
 
       return res.render("inscripcion/index", {
@@ -29,7 +28,6 @@ const iniciarSesion = async (req, res) => {
 
     }
 
-    // Password incorrecto
     if (alumno.password !== password) {
 
       return res.render("inscripcion/index", {
@@ -104,9 +102,6 @@ const iniciarSesion = async (req, res) => {
 
     });
 
-    // =========================
-    // AGRUPAR POR SEMESTRE
-    // =========================
 
     const clasesAgrupadas = {
 
@@ -126,7 +121,6 @@ const iniciarSesion = async (req, res) => {
 
     clases.forEach(clase => {
 
-      // Optativas
       if (clase.asignatura.optativa) {
 
         clasesAgrupadas.optativas.push(clase);
