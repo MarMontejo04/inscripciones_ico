@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import db from "../../config/db.js";
-import Inscripcion from "./Inscripcion.js";
 
 const Alumno = db.define("alumno", {
   id_alumno: {
@@ -35,6 +34,16 @@ const Alumno = db.define("alumno", {
   semestre: {
     type: DataTypes.INTEGER,
   },
+  password: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+  },
+  pregunta_secreta: {
+    type: DataTypes.STRING(255),
+  },
+  respuesta_secreta: {
+    type: DataTypes.STRING(255),
+  }
 },{
   freezeTableName:true,
   timestamps: false,

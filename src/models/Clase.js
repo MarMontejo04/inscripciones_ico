@@ -53,8 +53,5 @@ const Clase = db.define("clase", {
   timestamps: false,
 });
 
-Clase.belongsTo(Asignatura, { foreignKey: "clave_materia" });
-Clase.belongsTo(Grupo, { foreignKey: "grupo",as: "grupoClase" });
-Clase.belongsTo(Profesor, { foreignKey: "id_profesor" });
 
 export default Clase;

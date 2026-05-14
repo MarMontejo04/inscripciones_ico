@@ -1,9 +1,17 @@
-import { Router } from "express";
-import { mostrarFormulario, inscribir } from "../controllers/inscripcionController.js";
+import express from "express";
 
-const router = Router();
+import iniciarSesion from "../controllers/iniciarSesion.js";
 
-router.get("/", mostrarFormulario);
-router.post("/", inscribir);
+const router = express.Router();
+
+router.get("/", (req, res) => {
+
+  res.render("inscripcion/index");
+
+});
+
+
+router.post("/auth/login", iniciarSesion);
+
 
 export default router;

@@ -1,61 +1,204 @@
 doctype html
-html(lang="es")
+html(lang='es')
   head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Inscripción de Materias
-    style.
-      body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; }
-      table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-      th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-      th { background-color: #f4f4f4; }
-      input, select { padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
-      button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-      .error { color: red; padding: 10px; background: #ffe0e0; border-radius: 4px; margin: 10px 0; }
-      .exito { color: green; padding: 10px; background: #e0ffe0; border-radius: 4px; margin: 10px 0; }
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title ICO — Acceso al Sistema
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='preconnect', href='https://fonts.googleapis.com')
+    link(rel='preconnect', href='https://fonts.gstatic.com', crossorigin)
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap')
+    link(rel='stylesheet', href='/css/estiloInicio.css')
 
   body
-    h1 Inscripción de Materias
+    .page-wrapper
 
-    if error
-      p.error= error
-    if exito
-      p.exito= exito
+      //- ══════════════════════════════
+      //- COLUMNA IZQUIERDA — información
+      //- ══════════════════════════════
+      .col-info
 
-    form(action="/inscripciones" method="POST")
-      h3 Datos del alumno
-      label Número de cuenta:
-      br
-      input(type="number" name="num_cuenta" placeholder="Ej: 123456789" required)
-      br
-      label Semestre en curso:
-      br
-      input(type="text" name="semestre_curso" placeholder="Ej: 2025-2" required)
+        //- Marca / logo
+        .info-brand
+          img(
+              src='/img/logo.png'
+              alt='Logo UNAM'
+              width='150'
+            )
+          .info-brand-text
+            
+            strong FES Aragón
+            small Universidad Nacional Autónoma de México
 
-      h3 Clases disponibles
-      table
-        thead
-          tr
-            th Seleccionar
-            th Materia
-            th Profesor
-            th Grupo
-            th Créditos
-            th Día
-            th Horario
-            th Salón
-        tbody
-          each clase in clases
-            tr
-              td
-                input(type="radio" name="id_clase" value=clase.id_clase required)
-              td= clase.asignatura.nombre_asignatura
-              td= clase.profesor.nombre + ' ' + clase.profesor.ap_paterno
-              td= clase.grupoClase.num_grupo
-              td= clase.asignatura.creditos
-              td= clase.dia_semana
-              td= clase.hora_inicio + ' - ' + clase.hora_final
-              td= clase.salon
+        //- Contenido principal
+        .info-content
+          h1.info-title Inscripciones&nbsp;en Línea
 
-      br
-      button(type="submit") Inscribirse
+          p.info-subtitle Estimado alumno, recuerda:
+          ul.info-list
+            li Realizar tu proceso de reinscripción en la hora y fecha señalados.
+            li Toda reinscripción esta sujeta a validación por parte de DGAE.
+            li Ningún alumno podrá ser inscrito más de dos veces en una misma asignatura. En caso de no acreditarla, sólo podrá hacerlo en exámenes extraordinarios. (Art. 33 del R.G.I.).
+            li No hay prórroga 
+            li En caso de errores ir a la direccion de tu area
+
+          p.info-services-title Servicios en Línea
+          ul.info-services
+            li
+              a(href='https://plataformaeducativa.aragon.unam.mx/', target='_blank', rel='noopener')
+                | Plataforma Educativa Aragón
+            li
+              a(href='http://cle-aragon.unam.mx/', target='_blank', rel='noopener')
+                | Centro de Lenguas
+            li
+              a(href='https://cedco.aragon.unam.mx/sigedco/eventos/CEDCO/', target='_blank', rel='noopener')
+                | Cursos y Diplomados
+            li
+              a(href='http://aragon.dgae.unam.mx/', target='_blank', rel='noopener')
+                | Reinscripción
+            li
+              a(href='https://cedco.aragon.unam.mx/practicas-campo/app.php/', target='_blank', rel='noopener')
+                | Prácticas de Campo
+
+        //- Pie izquierdo
+        .info-footer
+          p
+            | Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados #{new Date().getFullYear()}.
+            br
+            | Contacto:&nbsp;
+            a(href='mailto:serviciosescolares@aragon.unam.mx') serviciosescolares@aragon.unam.mx
+            |  · Tel.: 56-23-10-66 ó 56-23-10-05
+
+
+      .col-form
+        .form-card
+
+          //- Encabezado dinámico
+          #form-header-login.form-header
+            p.form-header-label Acceso al sistema
+            h2.form-header-title Iniciar sesión
+            .form-header-line
+
+          #form-header-recovery.form-header(style='display:none')
+            p.form-header-label Recuperación de cuenta
+            h2.form-header-title ¿Olvidaste tu contraseña?
+            .form-header-line
+
+          //- ── PANEL 1: LOGIN ──
+          #panel-login.panel.active
+            form(action='/inscripciones/auth/login', method='POST', novalidate)
+              .mb-3
+                label.field-label(for='num_cuenta') Número de cuenta
+                input#num_cuenta.field-input(
+                  type='number'
+                  name='num_cuenta'
+                  placeholder='000000000'
+                  maxlength='9'
+                  min='100000000'
+                  max='999999999'
+                  autocomplete='username'
+                  required
+                )
+                span#err-cuenta.flash-error Los números de cuenta tienen 9 dígitos.
+
+              .mb-4
+                label.field-label(for='contrasena') Contraseña
+                input#contrasena.field-input(
+                  type='password'
+                  name='password'
+                  placeholder='••••••••'
+                  autocomplete='current-password'
+                  required
+                )
+
+              if locals.error
+                p.flash-error.visible= locals.error
+
+              button.btn-primary-form(type='submit') Iniciar sesión
+
+            .divider-form
+
+            .d-flex.justify-content-center
+              button.btn-ghost-form(type='button', onclick='switchPanel("recovery")')
+                | ¿Olvidaste tu contraseña?
+
+          //- ── PANEL 2: RECUPERACIÓN ──
+          #panel-recovery.panel
+            form(action='/inscripciones/auth/recovery', method='POST', novalidate)
+              .mb-3
+                label.field-label(for='rec_cuenta') Número de cuenta
+                input#rec_cuenta.field-input(
+                  type='number'
+                  name='num_cuenta'
+                  placeholder='000000000'
+                  maxlength='9'
+                  min='100000000'
+                  max='999999999'
+                  required
+                )
+                span#err-rec-cuenta.flash-error Los números de cuenta tienen 9 dígitos.
+
+              .mb-3
+                label.field-label Pregunta de seguridad
+                .question-box#pregunta-box
+                  if locals.pregunta
+                    = locals.pregunta
+                  else
+                    span(style='color:#b0bec5') — ingresa tu número de cuenta —
+
+              .mb-4
+                label.field-label(for='respuesta') Tu respuesta
+                input#respuesta.field-input(
+                  type='text'
+                  name='respuesta'
+                  placeholder='Escribe tu respuesta'
+                  autocomplete='off'
+                  required
+                )
+
+              if locals.error_recovery
+                p.flash-error.visible= locals.error_recovery
+
+              .d-flex.gap-2.align-items-center
+                button.btn-back-form(type='button', onclick='switchPanel("login")') ← Volver
+                button.btn-primary-form(type='submit', style='margin-top:0') Verificar
+
+          p.form-footer-note FES Aragón · UNAM · #{new Date().getFullYear()}
+
+    script(src='/bootstrap/js/bootstrap.bundle.min.js')
+    script.
+      function switchPanel(target) {
+        // paneles
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + target).classList.add('active');
+
+        // encabezados
+        document.getElementById('form-header-login').style.display    = target === 'login'    ? '' : 'none';
+        document.getElementById('form-header-recovery').style.display = target === 'recovery' ? '' : 'none';
+      }
+
+      function validateCuenta(inputEl, errEl) {
+        if (inputEl.value.length > 9) inputEl.value = inputEl.value.slice(0, 9);
+        const val = inputEl.value.replace(/\D/g, '');
+        errEl.classList.toggle('visible', val.length > 0 && val.length !== 9);
+      }
+
+      const cuentaInput    = document.getElementById('num_cuenta');
+      const errCuenta      = document.getElementById('err-cuenta');
+      const recCuentaInput = document.getElementById('rec_cuenta');
+      const errRecCuenta   = document.getElementById('err-rec-cuenta');
+
+      cuentaInput    && cuentaInput.addEventListener('input',    () => validateCuenta(cuentaInput, errCuenta));
+      recCuentaInput && recCuentaInput.addEventListener('input', () => validateCuenta(recCuentaInput, errRecCuenta));
+
+      /*
+        Carga la pregunta vía AJAX al salir del campo (descomentar cuando tengas el endpoint):
+
+      recCuentaInput && recCuentaInput.addEventListener('blur', async () => {
+        const cuenta = recCuentaInput.value.trim();
+        if (cuenta.length !== 9) return;
+        const res  = await fetch('/auth/pregunta?num_cuenta=' + cuenta);
+        const data = await res.json();
+        document.getElementById('pregunta-box').textContent = data.pregunta || 'Cuenta no encontrada';
+      });
+      */

@@ -5,7 +5,6 @@ import Asignatura from "../models/Asignatura.js";
 import Profesor from "../models/Profesor.js";
 import Grupo from "../models/Grupo.js";
 
-// GET /inscripciones - Muestra el formulario con num_cuenta y clases
 export const mostrarFormulario = async (req, res) => {
   try {
     const clases = await Clase.findAll({
@@ -25,11 +24,11 @@ export const mostrarFormulario = async (req, res) => {
 
 // POST /inscripciones - Procesa la inscripción
 export const inscribir = async (req, res) => {
-  const { num_cuenta, id_clase, semestre_curso } = req.body;
+  const { id_alumno, id_clase, semestre_curso } = req.body;
 
   try {
     // Buscar alumno por número de cuenta
-    const alumno = await Alumno.findOne({ where: { num_cuenta } });
+    const alumno = await Alumno.findOne({ where: { id_alumno } });
 
     if (!alumno) {
       const clases = await Clase.findAll({
@@ -84,7 +83,7 @@ export const inscribir = async (req, res) => {
       ],
     });
 
-    res.render("inscripcion/index", {
+    res.render("inscripcion/login", {
       clases,
       error: null,
       exito: `Inscripción exitosa para ${alumno.nombre} ${alumno.ap_paterno}`,

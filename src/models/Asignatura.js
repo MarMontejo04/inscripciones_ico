@@ -39,6 +39,5 @@ const Asignatura = db.define("asignatura", {
   timestamps: false,
 });
 
-Asignatura.belongsTo(Area, { foreignKey: "id_area" });
 
 export default Asignatura;

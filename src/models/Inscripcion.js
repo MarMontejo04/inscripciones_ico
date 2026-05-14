@@ -37,12 +37,21 @@ const Inscripcion = db.define("inscripcion", {
       key: "id_alumno",
     },
   },
+  calificacion: {
+    type: DataTypes.DECIMAL(4,2),
+    defaultValue: null
+  },
+
+  aprobada: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
 },{
   freezeTableName:true,
   timestamps: false,
 });
 
-Inscripcion.belongsTo(Clase, { foreignKey: "id_clase" });
-Inscripcion.belongsTo(Alumno, { foreignKey: "id_alumno" });
+
 
 export default Inscripcion;

@@ -20,9 +20,22 @@ CREATE TABLE alumno(
     correo VARCHAR(100) NOT NULL,
     fecha_ingreso DATE,
     semestre INT,
+    contrasena VARCHAR(255) NOT NULL DEFAULT '123456',
+    pregunta_secreta VARCHAR(255),
+    respuesta_secreta VARCHAR(255),
+
 
     PRIMARY KEY (id_alumno)
 );
+
+CREATE TABLE admin(
+    id_admin INT NOT NULL AUTO_INCREMENT,
+    usuario VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100),
+
+    PRIMARY KEY(id_admin)
+)
 
 CREATE TABLE asignatura(
     clave INT NOT NULL AUTO_INCREMENT,
@@ -83,7 +96,8 @@ CREATE TABLE inscripcion(
     fecha_inscripcion DATE,
     hora_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     semestre_curso VARCHAR(10) NOT NULL,
-
+    calificacion DECIMAL(4,2) DEFAULT NULL,
+    aprobada BOOL NOT NULL DEFAULT 0,
     id_clase INT NOT NULL,
     id_alumno INT NOT NULL,
 
