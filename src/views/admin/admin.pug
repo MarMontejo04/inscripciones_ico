@@ -1,0 +1,149 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    title Panel de Administración · ICO
+
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/admin.css')
+
+  body
+
+    .admin-shell
+
+      //- ── Sidebar ──
+      aside.admin-sidebar
+
+        .sidebar-header
+          h1 Panel Admin
+          p Sistema Escolar · FES Aragón
+
+        nav.sidebar-nav
+
+          p.nav-label Gestión
+
+          a.nav-item(href="#" data-table="alumnos" onclick="switchTable(event,'alumnos')")
+            span.nav-icon 👤
+            | Alumnos
+
+          a.nav-item(href="#" data-table="profesores" onclick="switchTable(event,'profesores')")
+            span.nav-icon 🧑‍🏫
+            | Profesores
+
+          a.nav-item(href="#" data-table="asignaturas" onclick="switchTable(event,'asignaturas')")
+            span.nav-icon 📚
+            | Asignaturas
+
+          a.nav-item(href="#" data-table="clases" onclick="switchTable(event,'clases')")
+            span.nav-icon 🗓️
+            | Clases
+
+          a.nav-item(href="#" data-table="grupos" onclick="switchTable(event,'grupos')")
+            span.nav-icon 🏫
+            | Grupos
+
+          a.nav-item(href="#" data-table="areas" onclick="switchTable(event,'areas')")
+            span.nav-icon 🗂️
+            | Áreas
+
+          a.nav-item(href="#" data-table="inscripciones" onclick="switchTable(event,'inscripciones')")
+            span.nav-icon 📋
+            | Inscripciones
+
+          p.nav-label.mt-3 Sesión
+
+          a.nav-item.nav-item-danger(href="/logout")
+            span.nav-icon ↩
+            | Cerrar sesión
+
+      //- ── Main ──
+      main.admin-main
+
+        //- Topbar
+        .admin-topbar
+
+          .topbar-left
+            h2#topbar-title Alumnos
+            span.topbar-badge#topbar-count —
+
+          .topbar-right
+
+            input.search-input(
+              type="text"
+              id="search-input"
+              placeholder="Buscar..."
+              oninput="filtrarTabla()"
+            )
+
+            button.btn-admin.btn-primary(
+              id="btn-nuevo"
+              onclick="abrirModal('nuevo')"
+            )
+              | + Nuevo registro
+
+        //- Mensajes flash
+        if error
+          .flash.flash-error= error
+
+        if exito
+          .flash.flash-success= exito
+
+        //- Contenido de tabla
+        .admin-content
+
+          .table-wrapper
+
+            table.admin-table#admin-table
+
+              thead
+                tr#table-head
+
+              tbody#table-body
+
+            .empty-state#empty-state(style="display:none")
+              p No se encontraron registros.
+
+        //- Paginación
+        .admin-footer
+          span#pagination-info
+          .pagination-btns
+            button.btn-admin#btn-prev(onclick="cambiarPagina(-1)") ← Anterior
+            button.btn-admin#btn-next(onclick="cambiarPagina(1)")  Siguiente →
+
+    //- ── Modal universal ──
+    .modal-backdrop#modal-backdrop(onclick="cerrarModal()" style="display:none")
+
+    .admin-modal#admin-modal(style="display:none")
+
+      .modal-header
+        h3#modal-title Nuevo registro
+        button.modal-close(onclick="cerrarModal()") ✕
+
+      form#modal-form(onsubmit="guardarRegistro(event)")
+
+        .modal-body#modal-body
+          //- Los campos se inyectan dinámicamente por JS
+
+        .modal-footer
+          button.btn-admin(type="button" onclick="cerrarModal()") Cancelar
+          button.btn-admin.btn-primary(type="submit" id="btn-guardar") Guardar
+
+    //- ── Modal confirmación de borrado ──
+    .modal-backdrop#delete-backdrop(onclick="cerrarDelete()" style="display:none")
+
+    .admin-modal.modal-sm#delete-modal(style="display:none")
+
+      .modal-header
+        h3 Confirmar eliminación
+        button.modal-close(onclick="cerrarDelete()") ✕
+
+      .modal-body
+        p ¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.
+
+      .modal-footer
+        button.btn-admin(type="button" onclick="cerrarDelete()") Cancelar
+        button.btn-admin.btn-danger(type="button" onclick="ejecutarDelete()") Eliminar
+
+    script(src='/js/admin.js')

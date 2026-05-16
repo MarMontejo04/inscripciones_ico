@@ -2,7 +2,7 @@ import express from "express";
 import db from "../config/db.js";
 import "./models/index.js";
 import inscripcionRoutes from "./routes/inscripcionRoutes.js";
-
+import adminRoutes from "./routes/adminRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 

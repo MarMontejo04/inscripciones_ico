@@ -5,12 +5,39 @@ import Profesor from "../models/Profesor.js";
 import Grupo from "../models/Grupo.js";
 import Inscripcion from "../models/Inscripcion.js";
 import { Op } from "sequelize";
+import Admin from "../models/Admin.js";
 
 const iniciarSesion = async (req, res) => {
-  const { num_cuenta, password } = req.body;
+  const { usuario, password } = req.body;
 
   try {
-    const alumno = await Alumno.findOne({ where: { num_cuenta } });
+
+    const admin = await Admin.findOne({
+      where: { usuario }
+    });
+
+    if (admin) {
+
+      if (admin.password !== password) {
+
+        return res.render("inscripcion/index", {
+          error: "Contraseña incorrecta",
+          exito: null,
+        });
+      }
+
+      return res.render("admin/admin", {
+
+        admin,
+
+        error: null,
+
+        exito:
+          `Bienvenido administrador ${admin.nombre}`,
+      });
+    }
+
+    const alumno = await Alumno.findOne({ where: { num_cuenta: usuario } });
 
     if (!alumno) {
       return res.render("inscripcion/index", {

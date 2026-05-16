@@ -84,14 +84,12 @@ html(lang='es')
           #panel-login.panel.active
             form(action='/inicio/auth/login', method='POST', novalidate)
               .mb-3
-                label.field-label(for='num_cuenta') Número de cuenta
-                input#num_cuenta.field-input(
-                  type='number'
-                  name='num_cuenta'
-                  placeholder='000000000'
-                  maxlength='9'
-                  min='100000000'
-                  max='999999999'
+                label.field-label(for='usuario') Usuario o número de cuenta
+
+                input#usuario.field-input(
+                  type='text'
+                  name='usuario'
+                  placeholder='Usuario o número de cuenta'
                   autocomplete='username'
                   required
                 )
