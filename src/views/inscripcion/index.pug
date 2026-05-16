@@ -82,7 +82,7 @@ html(lang='es')
 
           //- ── PANEL 1: LOGIN ──
           #panel-login.panel.active
-            form(action='/inscripciones/auth/login', method='POST', novalidate)
+            form(action='/inicio/auth/login', method='POST', novalidate)
               .mb-3
                 label.field-label(for='num_cuenta') Número de cuenta
                 input#num_cuenta.field-input(
@@ -119,7 +119,7 @@ html(lang='es')
                 | ¿Olvidaste tu contraseña?
 
           #panel-recovery.panel
-            form(action='/inscripciones/auth/recovery', method='POST', novalidate)
+            form(action='/inicio/auth/recovery', method='POST', novalidate)
               .mb-3
                 label.field-label(for='rec_cuenta') Número de cuenta
                 input#rec_cuenta.field-input(

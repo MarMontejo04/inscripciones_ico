@@ -7,92 +7,7 @@ html(lang="es")
     title Inscripción de Materias
 
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-
-    style.
-      body{
-        background:#f4f6f9;
-        font-family: Arial, sans-serif;
-      }
-
-      .main-container{
-        max-width:1200px;
-        margin:40px auto;
-      }
-
-      .card-custom{
-        background:white;
-        border-radius:12px;
-        padding:30px;
-        box-shadow:0 4px 18px rgba(0,0,0,.08);
-      }
-
-      .table thead{
-        background:#0d6efd;
-        color:white;
-      }
-
-      .student-info{
-        background:#eef4ff;
-        border-left:5px solid #0d6efd;
-        padding:18px;
-        border-radius:8px;
-        margin-bottom:25px;
-      }
-
-      .btn-submit{
-        padding:12px 24px;
-        border:none;
-        border-radius:8px;
-        background:#0d6efd;
-        color:white;
-        font-weight:bold;
-        transition:.2s;
-      }
-
-      .btn-submit:hover{
-        background:#0b5ed7;
-      }
-
-      .error{
-        background:#ffe5e5;
-        color:#b00020;
-        padding:12px;
-        border-radius:8px;
-        margin-bottom:15px;
-      }
-
-      .success{
-        background:#e5ffe8;
-        color:#006b21;
-        padding:12px;
-        border-radius:8px;
-        margin-bottom:15px;
-      }
-
-      .badge-optativa{
-        background:#ffc107;
-        color:#000;
-        padding:6px 10px;
-        border-radius:20px;
-        font-size:.8rem;
-        font-weight:bold;
-      }
-
-      .badge-obligatoria{
-        background:#0d6efd;
-        color:white;
-        padding:6px 10px;
-        border-radius:20px;
-        font-size:.8rem;
-        font-weight:bold;
-      }
-
-      .semester-badge{
-        background:#e9ecef;
-        padding:5px 10px;
-        border-radius:20px;
-        font-weight:bold;
-      }
+    link(rel='stylesheet', href='/css/inscripciones.css')
 
   body
 
@@ -119,7 +34,7 @@ html(lang="es")
         if exito
           .success= exito
 
-  
+        //- Información del alumno
         .student-info
 
           h4.mb-3 Información del Alumno
@@ -146,110 +61,113 @@ html(lang="es")
                 strong Semestre actual:
                 |  #{alumno.semestre}
 
-   
-        form(action="/inscripciones" method="POST")
+        //- Panel de tres columnas
+        
+        form(action="/inicio" method="POST")
 
-          input(
-            type="hidden"
-            name="id_alumno"
-            value=alumno.id_alumno
-          )
+          input(type="hidden" name="id_alumno" value=alumno.id_alumno)
+          input(type="hidden" name="clases_inscritas" id="clases_inscritas" value="")
 
-          
+          .inscripcion-panel
 
-          h4.mb-3 Clases Disponibles
+            //- ── Columna izquierda: materias disponibles ──
+            .panel-col
 
-          if clasesAgrupadas
+              .panel-header
+                h5 Materias disponibles
+                small(id="count-disponibles") Cargando...
 
-            each clasesSemestre, semestre in clasesAgrupadas
+              .panel-list#lista-disponibles
 
-              if clasesSemestre.length > 0
+                if clasesAgrupadas
 
-                if semestre === 'optativas'
+                  each clasesSemestre, semestre in clasesAgrupadas
 
-                  .mt-5.mb-3
-                    h3.text-warning.fw-bold
-                      | Materias Optativas
+                    if clasesSemestre.length > 0
 
-                else
+                      if semestre === 'optativas'
 
-                  .mt-5.mb-3
-                    h3.text-primary.fw-bold 
-                      | #{semestre}° Semestre
+                        p.px-2.pt-3.mb-1(
+                          style="font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:.05em;"
+                        ) Optativas
 
-                .table-responsive
+                      else
 
-                  table.table.table-hover.table-bordered.align-middle
-
-                    thead
-                      tr
-                        th Seleccionar
-                        th Materia
-                        th Tipo
-                        th Profesor
-                        th Grupo
-                        th Créditos
-                        th Día
-                        th Horario
-                        th Salón
-
-                    tbody
+                        p.px-2.pt-3.mb-1(
+                          style="font-size:11px;font-weight:700;color:#0a58ca;text-transform:uppercase;letter-spacing:.05em;"
+                        ) #{semestre}° Semestre
 
                       each clase in clasesSemestre
 
-                        tr
-
-                          td.text-center
-                            input(
-                              type="radio"
-                              name="id_clase"
-                              value=clase.id_clase
-                              required
-                            )
-
-                          td.fw-semibold
-                            = clase.asignatura.nombre_asignatura
-
-                          td.text-center
-
-                            if (clase.asignatura.optativa)
-
-                              span.badge-optativa
-                                | Optativa
-
+                        .materia-item(
+                          data-id=clase.id_clase
+                          data-asignatura=clase.clave_materia
+                          data-nombre=clase.asignatura.nombre_asignatura
+                          data-creditos=clase.asignatura.creditos
+                          data-semestre=semestre
+                          data-optativa=clase.asignatura.optativa
+                          onclick="seleccionarDisponible(this)"
+                        )
+                          .materia-nombre= clase.asignatura.nombre_asignatura
+                          .materia-meta
+                            | Grupo #{clase.grupoClase.num_grupo}
+                            |  · #{clase.dia_semana}
+                            |  #{clase.hora_inicio} - #{clase.hora_final}
+                            |  · #{clase.profesor.nombre} #{clase.profesor.ap_paterno}
+                            |  ·&nbsp;
+                            if clase.asignatura.optativa
+                              span.badge-optativa Optativa
                             else
+                              span.badge-obligatoria Obligatoria
 
-                              span.badge-obligatoria
-                                | Obligatoria
+                else
 
-                          td
-                            | #{clase.profesor.nombre}
-                            |  #{clase.profesor.ap_paterno}
+                  .empty-hint
+                    | No hay clases disponibles actualmente.
 
-                          td.text-center
-                            = clase.grupoClase.num_grupo
+            //- ── Columna central: botones de acción ──
+            .divider-col
 
-                          td.text-center
-                            = clase.asignatura.creditos
+              p.hint Selecciona y usa los botones
 
-                          td
-                            = clase.dia_semana
+              button.btn-inscribir#btn-inscribir(
+                type="button"
+                disabled
+                onclick="inscribirMateria()"
+              )
+                | ▶ Inscribir
 
-                          td
-                            | #{clase.hora_inicio}
-                            |  -
-                            |  #{clase.hora_final}
+              button.btn-baja#btn-baja(
+                type="button"
+                disabled
+                onclick="darBaja()"
+              )
+                | ◀ Dar de baja
 
-                          td.text-center
-                            = clase.salon
+            //- ── Columna derecha: materias inscritas ──
+            .panel-col
 
-          else
+              .panel-header
+                h5 Materias inscritas
+                small(id="count-inscritas") 0 materias · 0 créditos
 
+              .panel-list#lista-inscritas
 
-            .alert.alert-warning
-              | No hay clases disponibles actualmente.
+                .empty-hint#hint-vacio
+                  | Sin materias inscritas aún.
 
-          .mt-4.d-flex.justify-content-end
+          //- Barra inferior
+          .bottom-bar
 
-            button.btn-submit(type="submit")
-              | Inscribirse
+            .credits-summary
+              | Total de créditos: &nbsp;
+              strong#total-creditos 0
+
+            button.btn-submit#btn-submit(
+              type="submit"
+              disabled
+              onclick="prepararEnvio()"
+            )
+              | ✔ Aceptar materias inscritas
+
+    script(src='/js/inscripciones.js')

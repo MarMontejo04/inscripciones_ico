@@ -42,7 +42,7 @@ const Inscripcion = db.define("inscripcion", {
     defaultValue: null
   },
 
-  aprobada: {
+  inscrita: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false

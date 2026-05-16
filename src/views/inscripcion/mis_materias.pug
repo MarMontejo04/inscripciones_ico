@@ -1,0 +1,69 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Mis materias inscritas
+
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/inscripciones.css')
+
+  body
+    .container.main-container
+      .card-custom
+
+        .d-flex.justify-content-between.align-items-center.mb-4
+          div
+            h1.mb-1 Mis materias inscritas
+            p.text-muted Sistema Escolar · FES Aragón
+
+          form(action="/inicio/logout" method="POST" class="m-0")
+            button.btn.btn-danger(type="submit")
+              | Salir de la cuenta
+
+        if error
+          .error= error
+
+        if exito
+          .success= exito
+
+        .student-info
+          h4.mb-3 Información del Alumno
+          .row
+            .col-md-6
+              p
+                strong Nombre:
+                |  #{alumno.nombre} #{alumno.ap_paterno} #{alumno.ap_materno}
+
+            .col-md-6
+              p
+                strong Número de cuenta:
+                |  #{alumno.num_cuenta}
+
+            .col-md-6
+              p
+                strong Correo:
+                |  #{alumno.correo}
+
+            .col-md-6
+              p
+                strong Semestre actual:
+                |  #{alumno.semestre}
+
+        h4.mt-4.mb-3 Materias inscritas
+
+        if materias && materias.length
+          .panel-list
+            each inscripcion in materias
+              - const clase = inscripcion.clase || inscripcion.Clase
+              .materia-item.mb-3
+                .materia-nombre= clase.asignatura.nombre_asignatura
+                .materia-meta
+                  | Grupo #{clase.grupoClase.num_grupo}
+                  |  · #{clase.dia_semana}
+                  |  #{clase.hora_inicio} - #{clase.hora_final}
+                  |  · #{clase.profesor.nombre} #{clase.profesor.ap_paterno}
+                  |  · Créditos: #{clase.asignatura.creditos}
+        else
+          .empty-hint
+            | Aún no tienes materias inscritas.

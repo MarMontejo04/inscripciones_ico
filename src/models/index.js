@@ -6,10 +6,6 @@ import Grupo from "./Grupo.js";
 import Asignatura from "./Asignatura.js";
 
 
-// =====================
-// INSCRIPCION
-// =====================
-
 Inscripcion.belongsTo(Alumno, {
   foreignKey: "id_alumno"
 });
@@ -25,11 +21,6 @@ Inscripcion.belongsTo(Clase, {
 Clase.hasMany(Inscripcion, {
   foreignKey: "id_clase"
 });
-
-
-// =====================
-// CLASE
-// =====================
 
 Clase.belongsTo(Profesor, {
   foreignKey: "id_profesor"

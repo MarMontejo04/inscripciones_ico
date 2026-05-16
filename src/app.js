@@ -42,7 +42,7 @@ console.log(
 );
 
 // Routes
-app.use("/inscripciones", inscripcionRoutes);
+app.use("/inicio", inscripcionRoutes);
 
 // Conexion con BD
 try {
