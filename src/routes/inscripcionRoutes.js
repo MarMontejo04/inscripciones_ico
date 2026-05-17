@@ -13,10 +13,8 @@ router.get("/", (req, res) => {
   res.render("inscripcion/index");
 });
 
-// Login
 router.post("/auth/login", iniciarSesion);
 
-// Guardar inscripción
 router.post("/", inscribir);
 
 

@@ -512,6 +512,12 @@ INSERT INTO alumno (num_cuenta, ap_paterno, ap_materno, nombre, correo, fecha_in
 ('424001499', 'Tello',       'Unzueta',    'Cunegunda',    'cunegunda.tello499@estudiante.unam.mx',     '2024-02-01', 1),
 ('424001500', 'Unzueta',     'Varela',     'Cynthia',      'cynthia.unzueta500@estudiante.unam.mx',     '2024-02-01', 1);
 
+INSERT INTO admin(usuario, password, nombre)
+VALUES(
+    'admin',
+    '123456',
+    'Administrador General'
+);
 
 INSERT INTO asignatura (clave, nombre_asignatura, creditos, semestre, optativa, laboratorio, id_area) VALUES
 (1108, 'Álgebra', 9, 1, 0, 0, 1),
@@ -1607,4 +1613,3 @@ UPDATE asignatura SET id_area = 8 WHERE clave IN
   (1503);
 -- Administración de Proyectos
 
--- 

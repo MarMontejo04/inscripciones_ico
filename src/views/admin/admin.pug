@@ -25,31 +25,24 @@ html(lang="es")
           p.nav-label Gestión
 
           a.nav-item(href="#" data-table="alumnos" onclick="switchTable(event,'alumnos')")
-            span.nav-icon 👤
             | Alumnos
 
           a.nav-item(href="#" data-table="profesores" onclick="switchTable(event,'profesores')")
-            span.nav-icon 🧑‍🏫
             | Profesores
 
           a.nav-item(href="#" data-table="asignaturas" onclick="switchTable(event,'asignaturas')")
-            span.nav-icon 📚
             | Asignaturas
 
           a.nav-item(href="#" data-table="clases" onclick="switchTable(event,'clases')")
-            span.nav-icon 🗓️
             | Clases
 
           a.nav-item(href="#" data-table="grupos" onclick="switchTable(event,'grupos')")
-            span.nav-icon 🏫
             | Grupos
 
           a.nav-item(href="#" data-table="areas" onclick="switchTable(event,'areas')")
-            span.nav-icon 🗂️
             | Áreas
 
           a.nav-item(href="#" data-table="inscripciones" onclick="switchTable(event,'inscripciones')")
-            span.nav-icon 📋
             | Inscripciones
 
           p.nav-label.mt-3 Sesión
@@ -90,7 +83,6 @@ html(lang="es")
         if exito
           .flash.flash-success= exito
 
-        //- Contenido de tabla
         .admin-content
 
           .table-wrapper

@@ -173,7 +173,6 @@ function getPK(tabla) {
   return pks[tabla];
 }
 
-// ── Navegación entre tablas ───────────────────────────────────────────────
 
 function switchTable(e, tabla) {
   if (e) e.preventDefault();
@@ -444,7 +443,7 @@ async function ejecutarDelete() {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      alert(`Error: ${err.message ?? res.statusText}`);
+      alert(err.mensaje ?? err.message ?? 'Error al eliminar'); 
       return;
     }
 
